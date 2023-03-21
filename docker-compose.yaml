@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  app:
+    container_name: restaurant-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    restart: always

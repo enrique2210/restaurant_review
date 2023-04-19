@@ -23,10 +23,10 @@ def create_test(data: object = None):
             data = {
                 "username": "test",
                 "role": data if isinstance(data, int) else Role.CLIENT,
-                "password": "test"
+                "password": "test",
             }
-        data['password'] = generate_password_hash(data['password'])
-        data['role'] = Role(data['role']).name
+        data["password"] = generate_password_hash(data["password"])
+        data["role"] = Role(data["role"]).name
         test_data = user_schema.load(data)
         return test_data
     except:

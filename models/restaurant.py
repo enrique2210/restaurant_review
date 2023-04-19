@@ -14,13 +14,22 @@ class RestaurantModel(db.Model):
     location = db.Column(String(80), nullable=False)
     created_at = db.Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
     star_rating = db.Column(Float, nullable=False, default=0)
-    reviews = db.relationship("ReviewModel", lazy="dynamic",
-                              primaryjoin="RestaurantModel.id == ReviewModel.restaurant_id")
+    reviews = db.relationship(
+        "ReviewModel",
+        lazy="dynamic",
+        primaryjoin="RestaurantModel.id == ReviewModel.restaurant_id",
+    )
 
-    cuisine_type_id = db.Column(db.Integer, db.ForeignKey("cuisine_types.id"), nullable=False)
-    cuisine_type = db.relationship("CuisineTypeModel", )
+    cuisine_type_id = db.Column(
+        db.Integer, db.ForeignKey("cuisine_types.id"), nullable=False
+    )
+    cuisine_type = db.relationship(
+        "CuisineTypeModel",
+    )
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    user = db.relationship("UserModel", )
+    user = db.relationship(
+        "UserModel",
+    )
 
     def __init__(self, name, location, cuisine_type_id, user_id):
         self.name = name
@@ -42,19 +51,25 @@ class RestaurantModel(db.Model):
         if page == 0:
             search = cls.query.order_by(RestaurantModel.star_rating.desc()).all()
         else:
-            search = cls.query.order_by(RestaurantModel.star_rating.desc()).paginate(page=page,
-                                                                                     per_page=PAGINATE_DEFAULT_RESULS)
+            search = cls.query.order_by(RestaurantModel.star_rating.desc()).paginate(
+                page=page, per_page=PAGINATE_DEFAULT_RESULS
+            )
         return search
 
     @classmethod
     def find_by_star(cls, star, page=0) -> List["RestaurantModel"]:
         if page == 0:
-            search = cls.query.filter(RestaurantModel.star_rating >= star).order_by(
-                RestaurantModel.star_rating.desc()).all()
+            search = (
+                cls.query.filter(RestaurantModel.star_rating >= star)
+                .order_by(RestaurantModel.star_rating.desc())
+                .all()
+            )
         else:
-            search = cls.query.filter(RestaurantModel.star_rating >= star).order_by(
-                RestaurantModel.star_rating.desc()).paginate(page=page,
-                                                             per_page=PAGINATE_DEFAULT_RESULS)
+            search = (
+                cls.query.filter(RestaurantModel.star_rating >= star)
+                .order_by(RestaurantModel.star_rating.desc())
+                .paginate(page=page, per_page=PAGINATE_DEFAULT_RESULS)
+            )
         return search
 
     def save_to_db(self) -> None:

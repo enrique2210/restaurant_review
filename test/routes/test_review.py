@@ -2,8 +2,8 @@ import datetime
 
 from models.review import ReviewModel
 from schemas.review import ReviewSchema
-from test.routes.test_restaurant import create_test as restaurant_create_test
 from test.routes.test_cuisine_type import create_test as cuisine_type_create_test
+from test.routes.test_restaurant import create_test as restaurant_create_test
 from test.routes.test_user import create_test as user_create_test
 
 test_schema = ReviewSchema()
@@ -15,7 +15,9 @@ def test_create():
     # Assign id as it was created from "DB"
     user_obj.id = 1
     cuisine_type_obj.id = 1
-    restaurant_obj = restaurant_create_test(user=user_obj, cuisine_type=cuisine_type_obj)
+    restaurant_obj = restaurant_create_test(
+        user=user_obj, cuisine_type=cuisine_type_obj
+    )
     # Assign id as it was created from "DB"
     restaurant_obj.id = 1
     obj = create_test(user=user_obj, restaurant=restaurant_obj)

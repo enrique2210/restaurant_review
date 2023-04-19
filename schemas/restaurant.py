@@ -16,12 +16,9 @@ class RestaurantSchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
 
     cuisine_type = ma.Nested(CuisineTypeSchema, many=False)
-    user = fields.Method('get_user')
+    user = fields.Method("get_user")
 
     @staticmethod
     def get_user(obj):
         user = UserModel.find_by_id(obj.user_id)
-        return {
-            "id": user.id,
-            "username": user.username
-        }
+        return {"id": user.id, "username": user.username}

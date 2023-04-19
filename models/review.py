@@ -16,9 +16,11 @@ class ReviewModel(db.Model):
     date_visit = db.Column(Date, nullable=False)
     created_at = db.Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
 
-    user_id = db.Column(Integer, db.ForeignKey('users.id'), nullable=False)
-    user = db.relationship("UserModel", )
-    restaurant_id = db.Column(Integer, db.ForeignKey('restaurants.id'), nullable=False)
+    user_id = db.Column(Integer, db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship(
+        "UserModel",
+    )
+    restaurant_id = db.Column(Integer, db.ForeignKey("restaurants.id"), nullable=False)
 
     def __init__(self, star, comment, restaurant_id, user_id, date_visit):
         self.restaurant_id = restaurant_id
@@ -28,10 +30,10 @@ class ReviewModel(db.Model):
         self.date_visit = date_visit
 
     def __repr__(self):
-        return 'ReviewModel(star=%s, date_visit=%s)' % (self.star, self.date_visit)
+        return "ReviewModel(star=%s, date_visit=%s)" % (self.star, self.date_visit)
 
     def json(self):
-        return {'star': self.star, 'date_visit': self.date_visit}
+        return {"star": self.star, "date_visit": self.date_visit}
 
     @classmethod
     def find_by_id(cls, _id) -> "ReviewModel":
@@ -39,15 +41,18 @@ class ReviewModel(db.Model):
 
     @classmethod
     def find_by_restaurant_and_user(cls, _restaurant_id, _user_id) -> "ReviewModel":
-        return cls.query.filter_by(restaurant_id=_restaurant_id, user_id=_user_id).first()
+        return cls.query.filter_by(
+            restaurant_id=_restaurant_id, user_id=_user_id
+        ).first()
 
     @classmethod
     def find_by_restaurant(cls, _restaurant_id, page=0) -> "ReviewModel":
         if page == 0:
             search = cls.query.filter_by(restaurant_id=_restaurant_id).all()
         else:
-            search = cls.query.filter_by(restaurant_id=_restaurant_id).paginate(page=page,
-                                                                                per_page=PAGINATE_DEFAULT_RESULS)
+            search = cls.query.filter_by(restaurant_id=_restaurant_id).paginate(
+                page=page, per_page=PAGINATE_DEFAULT_RESULS
+            )
         return search
 
     @classmethod

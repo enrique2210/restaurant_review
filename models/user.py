@@ -25,12 +25,16 @@ class UserModel(db.Model):
 
     @classmethod
     def find_by_id(cls, _id) -> "UserModel":
-        return cls.query.with_entities(
-            UserModel.id,
-            UserModel.username,
-            UserModel.role,
-            UserModel.created_at,
-        ).filter_by(id=_id).first()
+        return (
+            cls.query.with_entities(
+                UserModel.id,
+                UserModel.username,
+                UserModel.role,
+                UserModel.created_at,
+            )
+            .filter_by(id=_id)
+            .first()
+        )
 
     @classmethod
     def find_all(cls, page=0) -> List["UserModel"]:
@@ -72,6 +76,6 @@ def user_loader(id):
 
 @login_manager.request_loader
 def request_loader(request):
-    username = request.form.get('username')
+    username = request.form.get("username")
     user = UserModel.query.filter_by(username=username).first()
     return user if user else None

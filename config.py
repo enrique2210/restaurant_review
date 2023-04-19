@@ -4,7 +4,7 @@ import os
 class Config(object):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///data.db'
+    SQLALCHEMY_DATABASE_URI = "sqlite:///data.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = True
 

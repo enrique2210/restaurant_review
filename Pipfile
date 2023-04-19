@@ -17,6 +17,7 @@ flask-httpauth = "*"
 pyjwt = "*"
 cryptography = "*"
 flask-login = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.9"

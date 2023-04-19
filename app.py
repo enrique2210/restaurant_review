@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, Blueprint, jsonify
 from flask_login import (
     login_user, logout_user, current_user
@@ -22,10 +24,9 @@ api = Api(bluePrint, doc='/doc', title='Restaurant Review APP')
 
 app.register_blueprint(bluePrint)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['PROPAGATE_EXCEPTIONS'] = True
-app.config['SECRET_KEY'] = "$uper:3"
+environment_configuration = os.environ['CONFIGURATION_SETUP']
+app.config.from_object(environment_configuration)
+print(f"Environment: {app.config['ENV']}")
 
 api.add_namespace(user_ns)
 api.add_namespace(users_ns)
